@@ -1,4 +1,26 @@
+import { useState } from "react";
+import axios from "axios";
+
+
 const Login = () => {
+
+  const [emailId,setEmailId] = useState("gg@gmail.com");
+  const [password,setPassword] = useState("Pass@123");
+
+  const handleLogin = async ()=>{
+      try {
+        const res = await axios.post("http://localhost:6969/login",{
+          emailId,
+          password
+        },
+      {withCredentials:true}
+      );   
+      } catch (error) {
+        console.log(error.message);
+        
+      }
+  }
+
   return (
     <>
       <div className="navbar bg-base-300 p-5">
@@ -33,6 +55,8 @@ const Login = () => {
                 <input
                   type="text"
                   className="input input-bordered input-primary w-full max-w-xs"
+                  value={emailId}
+                  onChange={(e)=>setEmailId(e.target.value)}
                 />
               </dd>
               <dt className="font-medium">Password</dt>
@@ -40,11 +64,13 @@ const Login = () => {
                <input
                   type="text"
                   className="input input-bordered input-primary w-full max-w-xs"
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
                 />
               </dd>
             </dl>
               <div className="flex justify-center">
-              <button className="mt-8 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950">LogIn</button>
+              <button className="mt-8 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleLogin}>LogIn</button>
               </div>
           </form>
         </div>
