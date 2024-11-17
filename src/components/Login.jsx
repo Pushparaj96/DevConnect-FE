@@ -7,12 +7,55 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-  const [emailId,setEmailId] = useState("gg@gmail.com");
-  const [password,setPassword] = useState("Pass@123");
+  const [ formData , setFormData ] = useState({
+    emailId:"gg@gmail.com",
+    password:"Pass@123"
+  });
+  const [ formError , setFormError ] = useState({});
+  const [authError,setAuthError] = useState(null);
   const dispatch  = useDispatch();
   const navigate = useNavigate();
 
+  const handleFormChange = (e) =>{
+    const { name , value } = e.target;
+    setFormData({
+      ...formData,
+      [name]:value
+    })
+  };
+
+  const validateLoginForm = ()=>{
+
+    const { emailId , password } = formData;
+    const errors = {};
+
+    const emailPattern = /^[a-zA-Z0-9.-]+@[a-zA-Z]+\.[a-zA-Z]{2,4}$/ ;
+
+    // email Validation
+    if(!emailId){
+      errors.emailId = "Required";
+    }else if(!emailPattern.test(emailId)){
+      errors.emailId = "Invalid Email Id";
+    }
+
+    // password validation
+    if(!password){
+      errors.password = "Required";
+    }
+
+    setFormError(errors);
+
+    // returns true if no error , otherwise return false
+    return Object.keys(errors).length === 0 ;
+
+  }
+
   const handleLogin = async ()=>{
+
+    if(!validateLoginForm()) return null;
+
+    const { emailId , password } = formData;
+
       try {
         const response = await axios.post(`${BASE_URL}/login`,{
           emailId,
@@ -23,9 +66,10 @@ const Login = () => {
       const {data:{data:loggenInUser}} = response;
       
       dispatch(addUser(loggenInUser));
-      navigate("/feed");
+      navigate("/");
 
       } catch (error) {
+        setAuthError(error?.response?.data);
         console.log(error.message);
         
       }
@@ -58,22 +102,35 @@ const Login = () => {
                 <input
                   type="text"
                   className="input input-bordered input-primary w-full max-w-xs"
-                  value={emailId}
-                  onChange={(e)=>setEmailId(e.target.value)}
+                  name="emailId"
+                  value={formData.emailId}
+                  onChange={handleFormChange}
                 />
               </dd>
+              {formError.emailId && 
+              <dd className="text-red-600">
+                {formError.emailId}
+              </dd>
+              }
               <dt className="font-medium">Password</dt>
               <dd>
                <input
                   type="text"
                   className="input input-bordered input-primary w-full max-w-xs"
-                  value={password}
-                  onChange={(e)=>setPassword(e.target.value)}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleFormChange}
                 />
               </dd>
+              {formError.password && 
+              <dd className="text-red-600">
+                {formError.password}
+              </dd>
+              }
+              <dd className="text-red-600 my-1">{authError}</dd>
             </dl>
               <div className="flex justify-center">
-              <button className="mt-8 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleLogin}>LogIn</button>
+              <button className="mt-6 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleLogin}>LogIn</button>
               </div>
           </form>
         </div>
