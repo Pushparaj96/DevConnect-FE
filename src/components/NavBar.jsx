@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 const NavBar = () => {
@@ -9,7 +10,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300 p-4">
   <div className="flex-1 ml-3">
-    <a className="btn btn-ghost text-xl hover:text-green-500">DevConnect</a>
+    <Link to="/" className="btn btn-ghost text-xl hover:text-green-500">DevConnect</Link>
   </div>
   {
     user &&
@@ -29,9 +30,9 @@ const NavBar = () => {
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-32 p-2 shadow">
         <li>
-          <a className="hover:text-green-500">
+          <Link to="/profile" className="hover:text-green-500">
             Profile
-          </a>
+          </Link>
         </li>
         <li><a className="hover:text-green-500">Settings</a></li>
         <li><a className="hover:text-green-500">Logout</a></li>
