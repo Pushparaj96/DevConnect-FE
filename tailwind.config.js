@@ -5,7 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      "tablet":"950px"
+    },
   },
   plugins: [require('daisyui')],
 }

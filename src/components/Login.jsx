@@ -22,15 +22,8 @@ const Login = () => {
   }
 
   return (
-    <>
-      <div className="navbar bg-base-300 p-5">
-        <a className="btn btn-ghost text-2xl hover:text-green-600">
-          DevConnect
-        </a>
-      </div>
-
       <div className="flex justify-center">
-        <div className="mt-[22%] sm:mt-[18%] md:mt-[10%] lg:mt-[6%] bg-base-300 p-8 rounded-xl w-8/12 sm:w-6/12 md:w-5/12 lg:w-1/4 shadow-md shadow-gray-600">
+        <div className="mt-[22%] sm:mt-[18%] md:mt-[10%] lg:mt-[6%] bg-base-300 p-8 rounded-xl w-9/12 sm:w-6/12 md:w-5/12 tablet:w-4/12 lg:w-1/4 shadow-md shadow-gray-600">
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="text-xl font-medium flex items-center justify-center mb-4">
               <svg
@@ -75,7 +68,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-    </>
   );
 };
 
