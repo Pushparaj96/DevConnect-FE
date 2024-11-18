@@ -25,11 +25,11 @@ const Connections = () => {
 
     if(!userConnections) return ;
 
-    if(userConnections.length === 0) return <div className="flex justify-center mt-5 min-h-screen"><h2>No Connections Found!</h2></div>
+    if(userConnections.length === 0) return <div className="flex justify-center mt-5 min-h-screen text-rose-400"><h2>No Connections Found!</h2></div>
 
   return (
     <div className="min-h-screen">
-        <h2 className="text-center my-5 text-2xl font-semibold">Your Connections...</h2>
+        <h2 className="text-center my-5 text-2xl font-semibold text-rose-400">Your Connections...</h2>
         <div className="flex flex-col gap-5 items-center">
             {
                 userConnections.map(connection=>{

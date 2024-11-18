@@ -1,6 +1,6 @@
 import { addReceivedRequests , removeReviewedRequest } from "../utils/requestsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
@@ -8,6 +8,8 @@ const Requests = () => {
 
   const dispatch = useDispatch();
   const receivedRequests = useSelector(store=>store.requests);
+  const [isAcceptToast,setIsAcceptToast] = useState(false);
+  const [isRejectToast,setIsRejectToast] = useState(false);
 
   const fetchReceivedRequests = async()=>{
     try {
@@ -36,11 +38,11 @@ const Requests = () => {
 
   if(!receivedRequests) return ;
 
-  if(receivedRequests.length === 0) return <div className="flex justify-center my-5 min-h-screen text-xl font-semibold"><h2>You Have 0 Requests!</h2></div>
+  if(receivedRequests.length === 0) return <div className="flex justify-center my-5 min-h-screen text-xl font-semibold text-rose-400"><h2>You Have 0 Requests!</h2></div>
 
   return (
     <div className="min-h-screen">
-        <h2 className="text-center my-5 text-2xl font-semibold">Pending Requests...</h2>
+        <h2 className="text-center my-5 text-2xl font-semibold text-rose-400">Pending Requests...</h2>
         <div className="flex flex-col gap-5 items-center">
             {
                 receivedRequests.map(request=>{
@@ -69,12 +71,24 @@ const Requests = () => {
                                 }
                             </div>
                             <div className="w-4/12 sm:w-3/12 md:w-3/12 p-3 flex justify-start md:justify-center items-center gap-4 flex-shrink-0">
-                                <button onClick={()=>reviewRequest("rejected",reqId)}>
+                                <button onClick={()=>{
+                                  setIsRejectToast(true);
+                                  setTimeout(()=>{
+                                    setIsRejectToast(false);
+                                  },2000)
+                                  reviewRequest("rejected",reqId);
+                                }}>
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} className="size-7 sm:size-8 md:size-10 stroke-red-700">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                                   </svg>
                                 </button>
-                                <button onClick={()=>reviewRequest("accepted",reqId)}>
+                                <button onClick={()=>{
+                                  setIsAcceptToast(true);
+                                  setTimeout(()=>{
+                                    setIsAcceptToast(false);
+                                  },2000)
+                                  reviewRequest("accepted",reqId);
+                                }}>
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} className="size-7 sm:size-8 md:size-10 stroke-green-700">
                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                   </svg>
@@ -83,6 +97,22 @@ const Requests = () => {
                         </div>
                     )
                 })
+            }
+            {
+              isAcceptToast && 
+              <div className="toast toast-center toast-top">
+                <div className="alert alert-success">
+               <span>Profile Saved Successfully ...</span>
+                </div>
+              </div>
+            }
+            {
+              isRejectToast && 
+              <div className="toast toast-center toast-top">
+              <div className="alert alert-error">
+               <span>Profile Saved Successfully ...</span>
+              </div>
+               </div>
             }
         </div>
     </div>
