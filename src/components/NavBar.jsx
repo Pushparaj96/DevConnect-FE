@@ -51,6 +51,12 @@ const NavBar = () => {
             Profile
           </Link>
         </li>
+        <li>
+          <Link to="/connections" className="hover:text-green-500">Connections</Link>
+        </li>
+        <li>
+          <Link to="/requests" className="hover:text-green-500">Requests</Link>
+        </li>
         <li><p className="hover:text-green-500" onClick={handleLogout}>Logout</p></li>
       </ul>
     </div>
