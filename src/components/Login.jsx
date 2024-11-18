@@ -52,7 +52,7 @@ const Login = () => {
 
   const handleLogin = async ()=>{
 
-    if(!validateLoginForm()) return null;
+    if(!validateLoginForm()) return;
 
     const { emailId , password } = formData;
 

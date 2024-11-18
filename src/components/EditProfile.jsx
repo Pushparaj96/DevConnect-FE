@@ -4,8 +4,10 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useState } from "react";
 import UserCard from "./UserCard";
+import * as Yup from "yup";
 
 const EditProfile = ({ user }) => {
+
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: user.firstName,
@@ -14,8 +16,10 @@ const EditProfile = ({ user }) => {
     gender: user.gender,
     photoUrl: user.photoUrl,
     bio: user.bio,
+    skills:user.skills
   });
-  const { firstName, lastName, age, gender, photoUrl, bio } = formData;
+  const { firstName, lastName, age, gender, photoUrl, bio , skills } = formData;
+  const [formErrors,setFormError] = useState({});
   const [ editStatus , setEditStatus ] = useState(false);
 
   const handleFieldChange = (e) => {
@@ -23,8 +27,43 @@ const EditProfile = ({ user }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleEditProfile = async () => {
+  const handleSkillsField = (e) =>{
+    let { name , value } = e.target;
+      value = value.split(",");
+      setFormData({
+        ...formData,
+        [name]:value
+      })
+  }
+
+  const validationSchema = Yup.object({
+    firstName:Yup.string().matches(/[a-zA-Z]+/,"invalid firstname"),
+    lastName:Yup.string().matches(/[a-zA-Z]+/,"invalid lastname"),
+    age:Yup.number().min(18,"min age 18").max(80,"max age 80"),
+    gender:Yup.string().required("Please Select Gender"),
+    photoUrl:Yup.string(),
+    bio:Yup.string(),
+    skills:Yup.array().max(25,"can't mention more than 25 skills")
+  });
+
+  const validateEditForm = async()=>{
     try {
+      await validationSchema.validate(formData,{abortEarly:false});
+      return true;
+    } catch (errors) {
+      const newErrors = {};
+      errors.inner.map(error=>newErrors[error.path]=error.message);
+      setFormError(newErrors);
+    }
+  }
+
+  const handleEditSubmit = async () => {
+    try {
+      
+      // validating Form 
+     const isValidSubmit = await validateEditForm();
+      if(!isValidSubmit) return;
+
       const response = await axios.patch(
         `${BASE_URL}/profile/edit`,
         {
@@ -34,6 +73,7 @@ const EditProfile = ({ user }) => {
           gender,
           photoUrl,
           bio,
+          skills
         },
         { withCredentials: true }
       );
@@ -44,10 +84,14 @@ const EditProfile = ({ user }) => {
         setEditStatus(false);
       },3000)
     } catch (error) {
-      console.log(error.message);
+      setFormError({
+        ...formErrors,
+        ["serverError"]:error.message
+      });
     }
   };
 
+  
   return (
     <div className="flex justify-center gap-10 flex-wrap">
       <div className="mt-10 bg-base-300 p-8 rounded-xl w-[90%] sm:w-[380px]  flex-shrink-0 shadow-md shadow-gray-600">
@@ -79,6 +123,10 @@ const EditProfile = ({ user }) => {
                 onChange={handleFieldChange}
               />
             </dd>
+            {
+              formErrors.firstName &&
+              <dd className="text-red-600">{formErrors.firstName}</dd>
+            }
             <dt className="font-medium">Last Name</dt>
             <dd>
               <input
@@ -89,6 +137,10 @@ const EditProfile = ({ user }) => {
                 onChange={handleFieldChange}
               />
             </dd>
+            {
+              formErrors.lastName &&
+              <dd className="text-red-600">{formErrors.lastName}</dd>
+            }
             <dt className="font-medium">Photo URL</dt>
             <dd>
               <input
@@ -99,6 +151,10 @@ const EditProfile = ({ user }) => {
                 onChange={handleFieldChange}
               />
             </dd>
+            {
+              formErrors.photoUrl &&
+              <dd className="text-red-600">{formErrors.photoUrl}</dd>
+            }
             <dt className="font-medium">Age</dt>
             <dd>
               <input
@@ -109,31 +165,54 @@ const EditProfile = ({ user }) => {
                 onChange={handleFieldChange}
               />
             </dd>
+            {
+              formErrors.age &&
+              <dd className="text-red-600">{formErrors.age}</dd>
+            }
             <dt className="font-medium">Gender</dt>
             <dd>
-              <input
-                type="text"
-                className="input input-bordered input-primary w-full max-w-xs"
-                value={gender}
-                name="gender"
-                onChange={handleFieldChange}
-              />
+            <select className="select select-primary w-full max-w-xs" value={gender} name="gender" onChange={handleFieldChange}>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
             </dd>
+            {
+              formErrors.gender &&
+              <dd className="text-red-600">{formErrors.gender}</dd>
+            }
             <dt className="font-medium">Bio</dt>
+            <dd>
+            <textarea className="textarea textarea-primary textarea-md w-full max-w-xs" placeholder="Bio" name="bio" value={bio} onChange={handleFieldChange}>
+            </textarea>
+            </dd>
+            {
+              formErrors.bio &&
+              <dd className="text-red-600">{formErrors.bio}</dd>
+            }
+            <dt className="font-medium">Skills</dt>
             <dd>
               <input
                 type="text"
                 className="input input-bordered input-primary w-full max-w-xs"
-                value={bio}
-                name="bio"
-                onChange={handleFieldChange}
+                value={skills}
+                name="skills"
+                onChange={handleSkillsField}
               />
             </dd>
+            {
+              formErrors.skills &&
+              <dd className="text-red-600">{formErrors.skills}</dd>
+            }
+            {
+              formErrors.serverError &&
+              <dd className="text-red-600">{formErrors.serverError}</dd>
+            }
           </dl>
           <div className="flex justify-center">
             <button
               className="mt-6 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950"
-              onClick={handleEditProfile}
+              onClick={handleEditSubmit}
             >
               Save
             </button>
