@@ -42,7 +42,7 @@ const Connections = () => {
                             <div className="w-7/12 sm:w-8/12 md:w-9/12 p-3 flex flex-col gap-1 justify-center">
                                 {
                                     firstName && lastName && 
-                                    <h2 className="text-lg md:text-xl font-semibold">{`${firstName} ${lastName}`}</h2>
+                                    <h2 className="text-lg md:text-xl font-semibold text-rose-700">{`${firstName} ${lastName}`}</h2>
                                 }
                                 {
                                     gender && age && 
