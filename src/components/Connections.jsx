@@ -37,12 +37,12 @@ const Connections = () => {
                     return (
                         <div key={_id} className="w-11/12 sm:w-9/12 md:w-7/12 lg:w-6/12 flex bg-base-300 rounded-lg shadow-lg shadow-slate-700 whitespace-nowrap overflow-hidden text-ellipsis">
                             <div className="w-5/12 sm:w-4/12 md:w-3/12 p-3 flex justify-center">
-                                <img alt="profile-pic" className="w-[130px] h-[130px] object-cover rounded-full" src={photoUrl}/>
+                                <img alt="profile-pic" className="w-[100px] md:w-[130px] h-[100px] md:h-[130px] object-cover rounded-full" src={photoUrl}/>
                             </div>
                             <div className="w-7/12 sm:w-8/12 md:w-9/12 p-3 flex flex-col gap-1 justify-center">
                                 {
                                     firstName && lastName && 
-                                    <h2 className="text-xl font-semibold">{`${firstName} ${lastName}`}</h2>
+                                    <h2 className="text-lg md:text-xl font-semibold">{`${firstName} ${lastName}`}</h2>
                                 }
                                 {
                                     gender && age && 
@@ -50,11 +50,11 @@ const Connections = () => {
                                 }
                                 {
                                     skills && 
-                                    <p className="text-base">{skills.toString()}</p>
+                                    <p className="text-base hidden md:block">{skills.toString()}</p>
                                 }
                                 {
                                     bio && 
-                                    <p className="text-base">{bio}</p>
+                                    <p className="text-base hidden md:block">{bio}</p>
                                 }
                             </div>
                             
