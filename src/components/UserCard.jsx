@@ -2,7 +2,7 @@
 
 const UserCard = ({user}) => {
 
-    const { firstName , lastName , gender , age , photoUrl ,skills , bio} = user;
+    const { _id:feedUserId , firstName , lastName , gender , age , photoUrl ,skills , bio} = user;
 
   return (
     <div className="card card-compact bg-base-300 w-96 shadow-xl mb-10">
