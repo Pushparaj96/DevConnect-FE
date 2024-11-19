@@ -1,7 +1,15 @@
 import { useState } from "react";
 import * as Yup from "yup";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { addUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [ formData , setFormData ] = useState({
         firstName:"",
@@ -46,6 +54,17 @@ const Signup = () => {
         try {
             const isValidSignup = await validateSignupForm();
             if(!isValidSignup) return ;
+
+            const response = await axios.post(`${BASE_URL}/signup`,{
+              firstName,
+              lastName,
+              emailId,
+              password
+            },{withCredentials:true});
+
+            const { data } = response?.data;
+            dispatch(addUser(data));
+            navigate("/profile");
 
 
         } catch (error) {
