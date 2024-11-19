@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect} from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch , useSelector } from "react-redux";
@@ -30,7 +30,7 @@ const Feed = () => {
 
   if(!feedData) return ;
 
-  if(feedData.length === 0) return <div className="flex justify-center mt-5 text-rose-400 text-xl"><h2>No New Users Found...</h2></div>
+  if(feedData.length === 0) return <div className="flex justify-center mt-5 text-rose-400 text-xl min-h-screen"><h2>Feed is Empty , New Users Not Found ...</h2></div>
 
 
   return(
