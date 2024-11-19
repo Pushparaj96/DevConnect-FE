@@ -12,7 +12,7 @@ const EditProfile = ({ user }) => {
   const [formData, setFormData] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
-    age: user.age,
+    age: user.age || "",
     gender: user.gender,
     photoUrl: user.photoUrl,
     bio: user.bio,
