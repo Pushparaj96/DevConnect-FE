@@ -1,4 +1,4 @@
-import { Outlet , useNavigate } from 'react-router-dom';
+import { Outlet , useNavigate , useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import axios from "axios";
@@ -12,6 +12,7 @@ const Body = () => {
   const dispatch = useDispatch();
   const userData = useSelector(store=>store.user);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchUser = async ()=>{
     try {
@@ -30,8 +31,10 @@ const Body = () => {
   }
 
   useEffect(()=>{
-    fetchUser();
-  },[])
+    if(!["/signup","/login"].includes(location.pathname)){
+      fetchUser();
+    }
+  },[location.pathname])
 
   return (
     <div>

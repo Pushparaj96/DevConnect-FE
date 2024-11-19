@@ -18,11 +18,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Body/>}>
             <Route path="/" element={<Feed/>} />
-            <Route path="/login" element={<Login/>} />
             <Route path="/signup" element={<Signup/>}/>
-            <Route path="/profile" element={<Profile/>}/>
             <Route path="/requests" element={<Requests/>}/>
             <Route path="/connections" element={<Connections/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/profile" element={<Profile/>}/>
           </Route>
         </Routes>
         </BrowserRouter>

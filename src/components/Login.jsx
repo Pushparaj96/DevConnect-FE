@@ -3,13 +3,13 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 const Login = () => {
 
   const [ formData , setFormData ] = useState({
-    emailId:"gg@gmail.com",
-    password:"Pass@123"
+    emailId:"",
+    password:""
   });
   const [ formError , setFormError ] = useState({});
   const [authError,setAuthError] = useState(null);
@@ -115,7 +115,7 @@ const Login = () => {
               <dt className="font-medium">Password</dt>
               <dd>
                <input
-                  type="text"
+                  type="password"
                   className="input input-bordered input-primary w-full max-w-xs"
                   name="password"
                   value={formData.password}
@@ -128,6 +128,7 @@ const Login = () => {
               </dd>
               }
               <dd className="text-red-600 my-1">{authError}</dd>
+              <dd className="pt-1 text-rose-400 text-base font-semibold">New User ? <span className="hover:underline"><Link to="/signup">Create Account</Link></span></dd>
             </dl>
               <div className="flex justify-center">
               <button className="mt-6 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleLogin}>LogIn</button>

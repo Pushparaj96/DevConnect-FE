@@ -4,7 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 const Signup = () => {
 
@@ -145,7 +145,7 @@ const Signup = () => {
             <dt className="font-medium">Password</dt>
             <dd>
              <input
-                type="text"
+                type="password"
                 className="input input-bordered input-primary w-full max-w-xs"
                 name="password"
                 value={password}
@@ -160,6 +160,7 @@ const Signup = () => {
                 formErrors.serverError && 
                 <dd className="text-red-600">{formErrors.serverError}</dd>
             }
+            <dd className="pt-1 text-rose-400 text-base font-semibold">Existing User ! <span className="hover:underline"><Link to="/login">Login Here</Link></span></dd>
           </dl>
             <div className="flex justify-center">
             <button className="mt-6 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleSignupClick} >SignUp</button>

@@ -35,7 +35,7 @@ const NavBar = () => {
     user &&
     <div className="flex-none gap-2">
     <div>
-      <p className="text-base font-medium">Welcome ,<span className="text-green-500 font-semibold text-lg ps-1">{user.firstName}</span></p>
+      <p className="text-base font-medium"><span className="hidden md:inline-flex">Welcome ,</span><span className="text-green-500 font-semibold text-lg ps-1">{user.firstName}</span></p>
     </div>
     <div className="dropdown dropdown-end mr-4">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
