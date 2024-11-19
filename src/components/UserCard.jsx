@@ -41,7 +41,14 @@ const UserCard = ({user}) => {
     </figure>
      <div className="card-body">
     <h2 className="card-title">{`${firstName} ${lastName}`}</h2>
-    { age && gender && <p>{`${age} , ${gender.charAt(0).toUpperCase()+gender.slice(1).toLowerCase()}`}</p>}
+    <p>
+      {
+        age && <span className="me-2">{age}</span>
+      }
+      {
+        gender && <span>{`${gender.charAt(0).toUpperCase()+gender.slice(1).toLowerCase()}`}</span>
+      }
+    </p>
     { bio && <p>{bio}</p>}
     { skills && <p>{skills.toString()}</p>}
     <div className="card-actions justify-center mt-2">

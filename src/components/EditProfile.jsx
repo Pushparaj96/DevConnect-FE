@@ -13,7 +13,7 @@ const EditProfile = ({ user }) => {
     firstName: user.firstName,
     lastName: user.lastName,
     age: user.age || "",
-    gender: user.gender,
+    gender: user.gender || "",
     photoUrl: user.photoUrl,
     bio: user.bio,
     skills:user.skills
@@ -37,11 +37,11 @@ const EditProfile = ({ user }) => {
   }
 
   const validationSchema = Yup.object({
-    firstName:Yup.string().matches(/[a-zA-Z]+/,"invalid firstname"),
-    lastName:Yup.string().matches(/[a-zA-Z]+/,"invalid lastname"),
-    age:Yup.number().min(18,"min age 18").max(80,"max age 80"),
+    firstName:Yup.string().matches(/[a-zA-Z]+/,"invalid firstname").required("Fill this Field"),
+    lastName:Yup.string().matches(/[a-zA-Z]+/,"invalid lastname").required("Fill this Field"),
+    age:Yup.number().min(18,"min age 18").max(80,"max age 80").required("Fill this Field"),
     gender:Yup.string().required("Please Select Gender"),
-    photoUrl:Yup.string(),
+    photoUrl:Yup.string().required("Fill this Field"),
     bio:Yup.string(),
     skills:Yup.array().max(25,"can't mention more than 25 skills")
   });
@@ -49,6 +49,7 @@ const EditProfile = ({ user }) => {
   const validateEditForm = async()=>{
     try {
       await validationSchema.validate(formData,{abortEarly:false});
+      setFormError({});
       return true;
     } catch (errors) {
       const newErrors = {};
@@ -172,6 +173,7 @@ const EditProfile = ({ user }) => {
             <dt className="font-medium">Gender</dt>
             <dd>
             <select className="select select-primary w-full max-w-xs" value={gender} name="gender" onChange={handleFieldChange}>
+                <option value="">Select</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="others">Others</option>
