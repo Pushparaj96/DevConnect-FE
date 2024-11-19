@@ -3,6 +3,7 @@ import axios from "axios";
 import { removeUserFromFeed } from "../utils/feedSlice";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const UserCard = ({user}) => {
 
@@ -12,6 +13,10 @@ const UserCard = ({user}) => {
     // to find the Route 
     const location = useLocation();
     const isProfileRoute = location.pathname === "/profile" ;
+
+    // toast notification
+    const [ isInterestedToast,setIsInterestedToast ] = useState(false);
+    const [ isIgnoredToast , setIsIgnoredToast ] = useState(false);
 
     const handleFeedUserClick = async (status,userId)=>{
       // disabled api calls because it's user card , he can't send ignore/interest to himself
@@ -41,13 +46,41 @@ const UserCard = ({user}) => {
     { skills && <p>{skills.toString()}</p>}
     <div className="card-actions justify-center mt-2">
         <button
-         className={`btn btn-error text-base ${isProfileRoute?"cursor-not-allowed":""}`} onClick={()=>handleFeedUserClick("ignored",feedUserId)}
+         className={`btn btn-error text-base ${isProfileRoute?"cursor-not-allowed":""}`} onClick={()=>{
+          handleFeedUserClick("ignored",feedUserId);
+          setIsIgnoredToast(true);
+          setTimeout(()=>{
+            setIsIgnoredToast(false);
+          },1000)
+         }}
          >Ignore</button>
         <button
-         className={`btn btn-success text-base ${isProfileRoute?"cursor-not-allowed":""}`} onClick={()=>handleFeedUserClick("interested",feedUserId)}
+         className={`btn btn-success text-base ${isProfileRoute?"cursor-not-allowed":""}`} onClick={()=>{
+          handleFeedUserClick("interested",feedUserId);
+          setIsInterestedToast(true);
+          setTimeout(()=>{
+            setIsInterestedToast(false);
+          },1000)
+         }}
          >Interested</button>
     </div>
      </div>
+             {
+              isInterestedToast && 
+              <div className="toast toast-center toast-top">
+                <div className="alert alert-success">
+               <span> You're Interested...</span>
+                </div>
+              </div>
+            }
+            {
+              isIgnoredToast && 
+              <div className="toast toast-center toast-top">
+              <div className="alert alert-error">
+               <span>You're Ignored ...</span>
+              </div>
+               </div>
+            }
     </div>
   )
 }
