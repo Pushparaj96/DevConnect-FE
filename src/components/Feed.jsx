@@ -26,12 +26,16 @@ const Feed = () => {
 
   useEffect(()=>{
     fetchFeed();
-  },[])
+  },[]);
+
+  if(!feedData) return ;
+
+  if(feedData.length === 0) return <div className="flex justify-center mt-5 text-rose-400 text-xl"><h2>No New Users Found...</h2></div>
 
 
-  return feedData && (
+  return(
     <div className="flex justify-center mt-12">
-        <UserCard user={feedData[1]}/>
+        <UserCard user={feedData[0]}/>
     </div>
   )
 }
