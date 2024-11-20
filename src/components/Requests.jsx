@@ -102,7 +102,7 @@ const Requests = () => {
               isAcceptToast && 
               <div className="toast toast-center toast-top">
                 <div className="alert alert-success">
-               <span>Profile Saved Successfully ...</span>
+               <span>Request Accepted ...</span>
                 </div>
               </div>
             }
@@ -110,7 +110,7 @@ const Requests = () => {
               isRejectToast && 
               <div className="toast toast-center toast-top">
               <div className="alert alert-error">
-               <span>Profile Saved Successfully ...</span>
+               <span> Request Rejected ...</span>
               </div>
                </div>
             }

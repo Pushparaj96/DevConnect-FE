@@ -160,7 +160,7 @@ const Signup = () => {
                 formErrors.serverError && 
                 <dd className="text-red-600">{formErrors.serverError}</dd>
             }
-            <dd className="pt-1 text-rose-400 text-base font-semibold">Existing User ! <span className="hover:underline"><Link to="/login">Login Here</Link></span></dd>
+            <dd className="pt-1 text-base font-semibold">Existing User ! <span className="hover:underline"><Link to="/login">Login Here</Link></span></dd>
           </dl>
             <div className="flex justify-center">
             <button className="mt-6 bg-primary py-2 w-3/4 rounded-md text-lg font-medium hover:opacity-80 text-slate-950" onClick={handleSignupClick} >SignUp</button>
